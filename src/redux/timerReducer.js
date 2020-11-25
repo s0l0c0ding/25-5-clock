@@ -1,0 +1,76 @@
+import { START_STOP, COUNTDOWN, RESET, BREAK_DECREMENT, BREAK_INCREMENT, SESSION_DECREMENT, SESSION_INCREMENT } from './actions';
+
+
+const INITIAL_STATE = {
+    break: 5,
+    session: 25,
+    current: 1*60,
+    isMod: false,
+    isRunning: false,
+    isSession: true
+}
+
+export default function timerReducer(state = INITIAL_STATE, action) {
+
+    switch (action.type) {
+        case COUNTDOWN:
+            if (state.isRunning) {
+                if(state.current===1 && state.isSession){
+                    return {
+                        ...state,
+                        current: state.break*60,
+                        isSession: false
+                    }
+                }
+                if(state.current===1 && !state.isSession){
+                    return INITIAL_STATE;
+                }
+                return {
+                    ...state,
+                    current: state.current - 1
+                }
+            }
+            return state;
+        case START_STOP:
+            return {
+                ...state,
+                isRunning: !state.isRunning
+            }
+        case RESET:
+            return INITIAL_STATE;
+        case BREAK_DECREMENT:
+            if (!state.isRunning && state.break > 1) {
+                return {
+                    ...state,
+                    break: state.break - 1
+                }
+            }
+            return state;
+        case BREAK_INCREMENT:
+            if (!state.isRunning && state.break <60) {
+                return {
+                    ...state,
+                    break: state.break + 1
+                }
+            }
+            return state;
+            case SESSION_DECREMENT:
+                if (!state.isRunning && state.session > 1) {
+                    return {
+                        ...state,
+                        session: state.session - 1
+                    }
+                }
+                return state;
+            case SESSION_INCREMENT:
+                if (!state.isRunning && state.session <60) {
+                    return {
+                        ...state,
+                        session: state.session + 1
+                    }
+                }
+                return state;
+        default:
+            return state;
+    }
+}
