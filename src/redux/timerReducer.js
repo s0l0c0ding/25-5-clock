@@ -26,7 +26,11 @@ export default function timerReducer(state = INITIAL_STATE, action) {
                 }
                 if (state.current < 1 && !state.isSession) {
                     playSoundElement(BEEP);
-                    return INITIAL_STATE;
+                    return {
+                        ...state,
+                        current: state.break * 60,
+                        isSession: true
+                    }
                 }
                 return {
                     ...state,
