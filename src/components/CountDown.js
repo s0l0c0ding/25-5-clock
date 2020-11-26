@@ -5,8 +5,8 @@ function CountDown(props) {
         return num <10 ? '0'+num : num;
     }
     return(
-    <div>
-         left --  {addZeros(min) + ' : '+ addZeros(sec)}
+    <div id='time-left'>
+     {addZeros(min) + ':'+ addZeros(sec)}
     </div>
     )
 }
